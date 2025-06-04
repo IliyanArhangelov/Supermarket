@@ -2,6 +2,12 @@
 //#include <fstream>
 #include <iostream>
 
+enum class WorkerType
+{
+	MANAGER,
+	CASHIER
+};
+
 enum class Warning {
 	LOW = 100,
 	MEDIUM = 200,
@@ -14,9 +20,14 @@ enum class ProductType
 	ByType
 };
 
+namespace Constants
+{
+	const size_t PHONENUMBER_SIZE = 10;
+}
+
 namespace FileName
 {
-	const char USERS[] = "Users.txt";
+	const char USERS[] = "Workers.txt";
 	const char ASSIGNMENTS[] = "Assignments.txt";
 	const char USERLIST[] = "UserList.txt";
 	const char MAILBOX[] = "Mailbox.txt";

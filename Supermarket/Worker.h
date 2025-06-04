@@ -3,10 +3,13 @@
 
 class Worker
 {
+	WorkerType workerType;
 	size_t id;
 	char* firstName;
+	//size_t firstNameSize;
 	char* lastName;
-	char* phoneNumber;
+	//ize_t lastNameSize;
+	char phoneNumber[Constants::PHONENUMBER_SIZE];
 	size_t age;
 	char* password;
 
@@ -14,8 +17,6 @@ class Worker
 	Warning* warnings;
 	size_t warningsCount;
 	size_t warningsCapacity;
-
-
 
 	void free();
 	void copyFrom(const Worker& other);
@@ -25,7 +26,8 @@ class Worker
 public:
 	//for every worker
 	Worker() = delete;
-	Worker(const char* firstName, const char* lastName, const char* phoneNumber, size_t age, const char* password);
+	Worker(WorkerType workerType, size_t id, const char* firstName, const char* lastName, const char* phoneNumber, size_t age, 
+		const char* password, size_t transactionCount, size_t warningsCount, size_t warningsCapacity, const Warning* warnings);
 	Worker(const Worker& other);
 	Worker(Worker&& other) noexcept;
 	virtual ~Worker();
@@ -48,5 +50,7 @@ public:
 	virtual void deleteCategory(size_t categoryId) const;
 	virtual void addProduct(ProductType productType) const;
 	virtual void deleteProduct(size_t productId) const;
+	virtual void loadProducts(const char* filename) const;
+	virtual void loadGiftcards(const char* filename) const;
 };
 

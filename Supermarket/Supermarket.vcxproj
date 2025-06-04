@@ -129,12 +129,18 @@
   <ItemGroup>
     <ClInclude Include="Cashier.h" />
     <ClInclude Include="Constants.h" />
+    <ClInclude Include="Manager.h" />
+    <ClInclude Include="Product.h" />
+    <ClInclude Include="ProductCategory.h" />
     <ClInclude Include="System.h" />
     <ClInclude Include="Worker.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Cashier.cpp" />
     <ClCompile Include="Constants.cpp" />
+    <ClCompile Include="Manager.cpp" />
+    <ClCompile Include="Product.cpp" />
+    <ClCompile Include="ProductCategory.cpp" />
     <ClCompile Include="System.cpp" />
     <ClCompile Include="Worker.cpp" />
   </ItemGroup>

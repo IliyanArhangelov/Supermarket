@@ -38,6 +38,7 @@ public:
 	void leave();
 	void logout();
 
-	void writeToFiles()
+
+	void writeToFiles();
 };
 

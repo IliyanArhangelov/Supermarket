@@ -13,15 +13,15 @@ public:
 	~Manager();
 
 	Manager& operator=(const Manager& other);
-	Manager&& operator=(Manager&& other);
+	Manager& operator=(Manager&& other) noexcept;
 
 	void listPending() const override;
-	void approve(size_t cashierId, const char* specialCode) const override;
-	void decline(size_t cashierId, const char* specialCode) const override;
-	void listWarnedCashier(size_t points) const override;
-	void warnCashier(size_t cashierId, size_t points) const override;
-	void promoteCashier(size_t cashierId, const char* specialCode) const override;
-	void fireCashier(size_t cashierId, const char* specialCode) const override;
+	void approve(Worker* cashier, const char* specialCode) const override;
+	void decline(Worker* cashier, const char* specialCode) const override;
+	void listWarnedCashier(Worker** workers, size_t points) const override;
+	void warnCashier(Worker* cashier, size_t points) const override;
+	void promoteCashier(Worker* cashier, const char* specialCode) const override;
+	void fireCashier(Worker** workers, size_t cashierId, const char* specialCode) const override;
 	void addCategory(size_t categoryName, const char* categoryDescription) const override;
 	void deleteCategory(size_t categoryId) const override;
 	void addProduct(ProductType productType) const override;

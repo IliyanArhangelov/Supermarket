@@ -3,8 +3,8 @@
 class ProductCategory
 {
 	size_t id;
-	const char* name;
-	const char* description;
+	char* name;
+	char* description;
 
 	void free();
 	void copyFrom(const ProductCategory& other);

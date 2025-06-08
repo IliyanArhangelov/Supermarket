@@ -6,9 +6,9 @@ class Product
 {
 	size_t id;
 	ProductType type;
-	const char* name;
+	char* name;
 	double price;
-	ProductCategory category;
+	ProductCategory* category;
 
 	void free();
 	void copyFrom(const Product& other);

@@ -1,0 +1,15 @@
+RECEIPT
+TRANSACTION_ID:8
+CASHIER_ID:6
+21:49 24.06.2025
+------------------------------
+domati
+1*2.4 - 2.4
+###
+Banana
+2*3.59 - 7.18
+###
+------------------------------
+SUBTOTAL:9.58
+DISCOUNT (Voucher: N/A):-0
+TOTAL:9.58

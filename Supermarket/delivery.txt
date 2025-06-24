@@ -1,0 +1,5 @@
+Banana:Fruits:weight:3.59:75.5
+Milk:Dairy:unit:2.99:240
+Cheese:Dairy:weight:17.50:30.2
+Water:Drinks:unit:0.89:500
+Chips:Snacks:unit:3.20:150

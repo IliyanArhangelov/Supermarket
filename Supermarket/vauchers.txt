@@ -1,0 +1,4 @@
+AllProducts:10:2
+SingleCategory:Fruits:15:1
+SingleCategory:Snacks:20:3
+MultipleCategory:Fruits,Dairy:12:2

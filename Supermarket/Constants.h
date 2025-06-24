@@ -1,5 +1,5 @@
 #pragma once
-//#include <fstream>
+#include <fstream>
 #include <iostream>
 
 enum class WorkerType
@@ -8,7 +8,7 @@ enum class WorkerType
 	CASHIER
 };
 
-enum class Warning {
+enum class WarningLevel {
 	LOW = 100,
 	MEDIUM = 200,
 	HIGH = 300
@@ -17,29 +17,40 @@ enum class Warning {
 enum class ProductType
 {
 	ByUnit,
-	ByType
+	ByWeight
+};
+
+enum class GiftCardType {
+	SingleCategory,
+	MultipleCategory,
+	AllProducts
 };
 
 namespace Constants
 {
+	const size_t SPECIAL_CODE_LENGTH = 7;
 	const size_t PHONENUMBER_SIZE = 10;
+	const size_t DEFAULT_CAPACITY = 10;
 }
 
 namespace FileName
 {
-	const char USERS[] = "Workers.txt";
-	const char ASSIGNMENTS[] = "Assignments.txt";
-	const char USERLIST[] = "UserList.txt";
-	const char MAILBOX[] = "Mailbox.txt";
-	const char GRADES[] = "Grades.txt";
-	const char COURSE[] = "Course.txt";
+	const char RECEIPT[] = "receipt_";
+	const char WORKERS[] = "Workers.txt";
+	const char PRODUCTS[] = "Products.txt";
+	const char PRODUCT_CATEGORY[] = "ProductCategory.txt";
+	const char FEED[] = "feed.txt";
+	const char LOG[] = "log.txt";
+	const char TRANSACTIONS[] = "Transactions.txt";
+	const char GIFT_CARDS[] = "GiftCards.txt";
+	const char SPECIAL_CODE[] = "_special_code.txt";
 }
 
 namespace FileOpr
 {
-	bool isNumberInFile(int n, std::istream& file);
-	void deleteNumberFromFile(int numberToDelete, const char* filename);
 	void printFile(const char* filename);
+	void writeString(std::ostream& os, const char* str);
+	char* readString(std::istream& is);
 }
 
 namespace NumberOpr
@@ -57,6 +68,15 @@ namespace StrOpr
 
 	char* size_tToChar(size_t n);
 	char* getTime();
+
+	char* strtok(char*& str, char delimiter);
+	size_t to_size_t(const char* str);
+	double to_double(const char* str);
+
+	char* generateSpecialCode();
+	char* generateVoucherCode(size_t counter);
 }
+
+
 
 

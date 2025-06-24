@@ -1,91 +1,58 @@
-#include "Constants.h"
+﻿#include "Constants.h"
 #include <fstream>
 #include <ctime>
 #pragma warning(disable:4996)
 
-
-bool FileOpr::isNumberInFile(int n, std::istream& file)
-{
-	std::streampos original_pos = file.tellg();
-	std::ios_base::iostate original_state = file.rdstate();
-
-	file.clear();
-	file.seekg(0, std::ios::beg);
-
-	if (file.fail()) {
-		file.clear();
-
-		if (original_pos != std::streampos(-1)) {
-			file.seekg(original_pos);
-		}
-
-		file.clear(original_state);
-		return false;
-	}
-
-	int currentNumber = 1;
-	bool found = false;
-
-	while (!file.eof()) {
-		file >> currentNumber;
-		if (currentNumber == n) {
-			found = true;
-			break;
-		}
-	}
-
-	file.clear();
-	file.seekg(original_pos);
-	file.clear(original_state);
-
-	return found;
-}
-
-void FileOpr::deleteNumberFromFile(int numberToDelete, const char* filename)
+void FileOpr::printFile(const char* filename) 
 {
 	std::ifstream file(filename);
-	size_t count = 0;
-
-	int num;
-	while (file >> num) {
-
-		count++;
-	}
-
-	int* numbers = new int[count];
-
-	file.clear();
-	file.seekg(0, std::ios::beg);
-
-	for (size_t i = 0; i < count; i++)
+	if (!file.is_open()) 
 	{
-		file >> numbers[i];
-	}
-
-	file.close();
-	std::ofstream newFile(filename, std::ios::trunc);
-
-	for (size_t i = 0; i < count; i++)
-	{
-		if (numbers[i] != numberToDelete)
-		{
-			newFile << numbers[i] << " ";
-		}
-	}
-	delete[] numbers;
-}
-
-void FileOpr::printFile(const char* filename) {
-	std::ifstream file(filename);
-	if (!file.is_open()) {
 		std::cerr << "Error opening file: " << filename << '\n';
 		return;
 	}
 
 	char ch;
-	while (file.get(ch)) {
+	while (file.get(ch)) 
+	{
 		std::cout << ch;
 	}
+}
+
+void FileOpr::writeString(std::ostream& os, const char* str)
+{
+	if (!str)
+	{
+		os << 0 << ' ';
+		return;
+	}
+	size_t len = StrOpr::strLen(str);
+	os << len << ' ';
+	if (len > 0) 
+	{ 
+		os.write(str, len);
+	}
+	os << ' ';
+}
+
+char* FileOpr::readString(std::istream& is)
+{
+	size_t len;
+	is >> len;
+
+	// get the empty space ' ' or '\n'
+	is.get();
+
+	if (len == 0)
+	{
+		return new char[1]{'\0'};
+	}
+
+	char* buffer = new char[len + 1];
+	is.read(buffer, len);
+	buffer[len] = '\0';
+
+	return buffer;
 }
 
 size_t NumberOpr::digitsCount(int n)
@@ -127,24 +94,18 @@ void StrOpr::strCopy(char*& dest, const char* src)
 }
 bool StrOpr::equals(const char* str1, const char* str2)
 {
-	size_t size = strLen(str1);
-	if (strLen(str2) != size)
-	{
-		std::cout << size << std::endl << strLen(str2);
-		std::cout << 'n';
-		return false;
+	if (!str1 || !str2) {
+		return str1 == str2;
 	}
-
-	for (size_t i = 0; i < size; i++)
+	while (*str1 != '\0' && *str2 != '\0')
 	{
-		std::cout << 'a';
-		if (str1[i] != str2[i])
-		{
-			std::cout << 'o';
+		if (*str1 != *str2) {
 			return false;
 		}
+		str1++;
+		str2++;
 	}
-	return true;
+	return *str1 == *str2;
 }
 char* StrOpr::concatChar(const char* str1, const char* str2) {
 	size_t lenA = strLen(str1);
@@ -152,10 +113,12 @@ char* StrOpr::concatChar(const char* str1, const char* str2) {
 
 	char* result = new char[lenA + lenB + 1];
 
-	for (size_t i = 0; i < lenA; i++) {
+	for (size_t i = 0; i < lenA; i++)
+	{
 		result[i] = str1[i];
 	}
-	for (size_t i = 0; i < lenB; i++) {
+	for (size_t i = 0; i < lenB; i++)
+	{
 		result[lenA + i] = str2[i];
 	}
 	result[lenA + lenB] = '\0';
@@ -164,7 +127,8 @@ char* StrOpr::concatChar(const char* str1, const char* str2) {
 
 char* StrOpr::size_tToChar(size_t n)
 {
-	if (n == 0) {
+	if (n == 0)
+	{
 		char* zeroStr = new char[2];
 		zeroStr[0] = '0';
 		zeroStr[1] = '\0';
@@ -175,7 +139,8 @@ char* StrOpr::size_tToChar(size_t n)
 	char* result = new char[digits + 1];
 	result[digits] = '\0';
 
-	for (size_t i = 0; i < digits; i++) {
+	for (size_t i = 0; i < digits; i++)
+	{
 		result[digits - i - 1] = '0' + (n % 10);
 		n /= 10;
 	}
@@ -183,12 +148,9 @@ char* StrOpr::size_tToChar(size_t n)
 	return result;
 }
 
-char* StrOpr::getTime() {
-	// The desired format: "HH:MM DD.MM.YYYY"
-// This requires 16 characters plus one for the null terminator.
+char* StrOpr::getTime()
+{
 	char* buffer = new char[17];
-
-	// Obtain the current time.
 	time_t now = time(NULL);
 	struct tm* local = localtime(&now);
 	if (!local) {
@@ -196,17 +158,11 @@ char* StrOpr::getTime() {
 		return buffer;
 	}
 
-	// Extract the individual components.
 	int hour = local->tm_hour;
 	int minute = local->tm_min;
 	int day = local->tm_mday;
-	int month = local->tm_mon + 1; // tm_mon is 0-based.
-	int year = local->tm_year + 1900; // tm_year is years since 1900.
-
-	// Manually fill the buffer:
-	// Format positions:
-	// Index:  0 1   2  3 4   5   6 7   8   9 10 11   12 13 14 15
-	//         H H   :  M M   ' ' D D   .  M M  .    Y  Y  Y  Y
+	int month = local->tm_mon + 1;
+	int year = local->tm_year + 1900;
 
 	// Hour: two digits
 	buffer[0] = '0' + (hour / 10);
@@ -246,4 +202,133 @@ char* StrOpr::getTime() {
 	buffer[16] = '\0';
 
 	return buffer;
+}
+
+char* StrOpr::strtok(char*& str, char delimiter)
+{
+	if (!str || *str == '\0') {
+		return nullptr;
+	}
+	char* start = str;
+	while (*str != '\0' && *str != delimiter) {
+		str++;
+	}
+	if (*str != '\0') {
+		*str = '\0';
+		str++;
+	}
+	return start;
+}
+
+size_t StrOpr::to_size_t(const char* str)
+{
+	if (!str) { return 0; }
+	size_t result = 0;
+	while (*str >= '0' && *str <= '9') {
+		result = result * 10 + (*str - '0');
+		str++;
+	}
+	return result;
+}
+
+double StrOpr::to_double(const char* str)
+{
+	if (!str) { return 0.0; }
+
+	double result = 0.0;
+	double sign = 1.0;
+
+	// check negative sign
+	if (*str == '-') {
+		sign = -1.0;
+		str++;
+	}
+
+	// 1. find numbers before the decimal point
+	while (*str >= '0' && *str <= '9') {
+		result = result * 10.0 + (*str - '0');
+		str++;
+	}
+
+	// 2. find decimal point
+	if (*str == '.' || *str == ',') {
+		str++;
+
+		double fraction = 0.0;
+		double divisor = 1.0;
+
+		// 3. find numbers after the decimal point
+		while (*str >= '0' && *str <= '9') {
+			fraction = fraction * 10.0 + (*str - '0');
+			divisor *= 10.0;
+			str++;
+		}
+
+		// 4. add the fraction to the result
+		result += fraction / divisor;
+	}
+
+	return result * sign;
+}
+
+char* StrOpr::generateSpecialCode()
+{
+	// Format: <0-9><A-Z><A-Z><0-9><0-9><0-9><a-z> 
+	char* code = new char[Constants::SPECIAL_CODE_LENGTH];
+
+	static bool seeded = false;
+	if (!seeded) {
+		srand(time(0));
+		seeded = true;
+	}
+
+	// <0-9>
+	code[0] = '0' + (rand() % 10);
+	// <A-Z>
+	code[1] = 'A' + (rand() % 26);
+	// <A-Z>
+	code[2] = 'A' + (rand() % 26);
+	// <0-9>
+	code[3] = '0' + (rand() % 10);
+	// <0-9>
+	code[4] = '0' + (rand() % 10);
+	// <0-9>
+	code[5] = '0' + (rand() % 10);
+	// <a-z>
+	code[6] = 'a' + (rand() % 26);
+	// end of string
+	code[7] = '\0';
+
+	return code;
+}
+
+char* StrOpr::generateVoucherCode(size_t counter)
+{
+	char* counterStr = StrOpr::size_tToChar(counter);
+	size_t counterLen = StrOpr::strLen(counterStr);
+
+	char* code = new char[4 + counterLen + 1];
+
+	// init generator
+	static bool seeded = false;
+	if (!seeded) {
+		srand(time(0));
+		seeded = true;
+	}
+
+	// generating parts
+	code[0] = '0' + (rand() % 10);		 // <0-9>
+	code[1] = 'A' + (rand() % 26);		 // <A-Z>
+
+	// Копираме counter-а в средата
+	for (size_t i = 0; i < counterLen; i++) {
+		code[2 + i] = counterStr[i];
+	}
+
+	code[2 + counterLen] = 'A' + (rand() % 26); // <A-Z>
+	code[3 + counterLen] = '0' + (rand() % 10); // <0-9>
+	code[4 + counterLen] = '\0';				
+
+	delete[] counterStr; 
+	return code;
 }

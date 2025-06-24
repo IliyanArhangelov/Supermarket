@@ -1,6 +1,7 @@
-#include "Worker.h"
+﻿#include "Worker.h"
 #include "Constants.h"
 #include "CommonFunctions.hpp"
+#include "Transaction.h"
 
 void Worker::staticCopyFrom(const Worker& other)
 {
@@ -9,26 +10,18 @@ void Worker::staticCopyFrom(const Worker& other)
 	workerType = other.workerType;
 	id = other.id;
 	age = other.age;
-	transactionCount = other.transactionCount;
-	
-	warningsCount = other.warningsCount;
-	warningsCapacity = other.warningsCapacity;
 }
 void Worker::dynamicCopyFrom(const Worker& other)
 {
-	COMMON::copyArr<Warning>(warnings, other.warnings, other.warningsCount);
 	StrOpr::strCopy(firstName, other.firstName);
 	StrOpr::strCopy(lastName, other.lastName);
 	StrOpr::strCopy(password, other.password);
 }
 void Worker::dynamicMoveFrom(Worker&& other) noexcept
 {
-	warnings = other.warnings;
 	firstName = other.firstName;
 	lastName = other.lastName;
 	password = other.password;
-
-	other.warnings = nullptr;
 	other.firstName = nullptr;
 	other.lastName = nullptr;
 	other.password = nullptr;
@@ -38,11 +31,9 @@ void Worker::free()
 	delete[] firstName;
 	delete[] lastName;
 	delete[] password;
-	delete[] warnings;
 	firstName = nullptr;
 	lastName = nullptr;
 	password = nullptr;
-	warnings = nullptr;
 }
 
 void Worker::copyFrom(const Worker& other)
@@ -52,11 +43,9 @@ void Worker::copyFrom(const Worker& other)
 }
 
 void Worker::moveFrom(Worker&& other) noexcept
-{
-	dynamicMoveFrom(std::move(other));
+{	
 	staticCopyFrom(other);
-
-	//other.free();
+	dynamicMoveFrom(std::move(other));
 }
 
 void Worker::noPermissionMessage() const
@@ -64,23 +53,23 @@ void Worker::noPermissionMessage() const
 	std::cout << "NO PERMISSION FOR THIS ACTION" << std::endl;
 }
 
-Worker::Worker(WorkerType workerType, bool approved, size_t id, const char* firstName, const char* lastName, const char* phoneNumber, size_t age, const char* password, size_t transactionCount, size_t warningsCount, size_t warningsCapacity, const Warning* warnings)
+Worker::Worker(WorkerType workerType, bool approved, size_t id, const char* firstName, const char* lastName, const char* phoneNumber, size_t age, const char* password)
 {
-	COMMON::copyArr<char>(this->phoneNumber, phoneNumber, Constants::PHONENUMBER_SIZE);
-	COMMON::copyArr<Warning>(this->warnings, warnings, warningsCount);
-
-	StrOpr::strCopy(this->firstName, firstName);
-	StrOpr::strCopy(this->lastName, lastName);
-	StrOpr::strCopy(this->password, password);
-
 	this->approved = approved;
 	this->workerType = workerType;
 	this->id = id;
 	this->age = age;
-	this->transactionCount = transactionCount;
-	this->warningsCount = warningsCount;
-	this->warningsCapacity = warningsCapacity;
+
+	COMMON::copyArr(this->phoneNumber, phoneNumber, Constants::PHONENUMBER_SIZE);
+
+	this->firstName = nullptr;
+	this->lastName = nullptr;
+	this->password = nullptr;
+	StrOpr::strCopy(this->firstName, firstName);
+	StrOpr::strCopy(this->lastName, lastName);
+	StrOpr::strCopy(this->password, password);
 }
+
 
 Worker::Worker(const Worker& other)
 {
@@ -117,59 +106,141 @@ Worker& Worker::operator=(Worker&& other) noexcept
 	return *this;
 }
 
-void Worker::sell() {
+void Worker::serialize(std::ostream& os) const
+{
+	os << static_cast<int>(workerType) << ' ';
+	os << id << ' ';
+	FileOpr::writeString(os, firstName);
+	FileOpr::writeString(os, lastName);
+	os.write(phoneNumber, Constants::PHONENUMBER_SIZE);
+	os << ' ' << age << ' ';
+	FileOpr::writeString(os, password);
+	os << approved << ' ';
+}
+
+bool Worker::sell(Product** allProducts, size_t productsCount, Transaction**& transactions, size_t& transactionsCount, size_t& transactionsCapacity, GiftCard** allGiftCards, size_t giftCardsCount)
+{
+	noPermissionMessage();
+	return false;
+}
+
+size_t Worker::getId() const 
+{
+	return id;
+
+}
+const char* Worker::getFirstName() const 
+{
+	return firstName; 
+}
+
+const char* Worker::getLastName() const 
+{ 
+	return lastName;
+}
+
+const char* Worker::getPassword() const
+{ 
+	return password;
+}
+
+const char* Worker::getPhoneNumber() const 
+{ 
+	return phoneNumber; 
+}
+
+size_t Worker::getAge() const 
+{
+	return age;
+}
+
+bool Worker::isApproved() const 
+{
+	return approved;
+}
+
+void Worker::setApproved(bool isApproved)
+{
+	this->approved = isApproved;
+}
+
+WorkerType Worker::getWorkerType() const 
+{ 
+	return workerType; 
+}
+
+void Worker::listPending(Worker** allWorkers, size_t count) const
+{
 	noPermissionMessage();
 }
 
+bool Worker::approve(Worker* cashierToApprove, const char* specialCode) const 
+{
+	noPermissionMessage();
+	return false;
+}
 
-void Worker::listPending() const {
+bool Worker::decline(Worker** allWorkers, size_t& count, size_t cashierIdToDecline, const char* specialCode) const
+{
+	noPermissionMessage();
+	return false;
+}
+
+void Worker::listWarnedCashiers(Worker** allWorkers, size_t workersCount, int pointsThreshold) const
+{
 	noPermissionMessage();
 }
 
-void Worker::approve(Worker* cashier, const char* specialCode) const {
+bool Worker::warnCashier(Worker* cashierToWarn, WarningLevel level, const char* description) const 
+{
 	noPermissionMessage();
+	return false;
 }
 
-void Worker::decline(Worker* cashier, const char* specialCode) const {
+bool Worker::promoteCashier(Worker** allWorkers, size_t workersCount, size_t cashierIdToPromote, const char* specialCode) const 
+{
 	noPermissionMessage();
+	return false;
 }
 
-void Worker::listWarnedCashier(Worker** workers, size_t points) const {
+bool Worker::fireCashier(Worker** allWorkers, size_t& workersCount, size_t cashierIdToFire, const char* specialCode) const
+{
 	noPermissionMessage();
+	return false;
 }
 
-void Worker::warnCashier(Worker* cashier, size_t points) const {
+bool Worker::addCategory(ProductCategory**& categories, size_t& count, size_t& capacity, const char* name, const char* description) const 
+{
 	noPermissionMessage();
+	return false;
 }
 
-void Worker::promoteCashier(Worker* cashier, const char* specialCode) const {
+bool Worker::deleteCategory(ProductCategory**& categories, size_t& categoryCount, size_t categoryIdToDelete, Product** allProducts, size_t productsCount) const
+{
 	noPermissionMessage();
+	return false;
 }
 
-void Worker::fireCashier(Worker** workers, size_t cashierId, const char* specialCode) const {
+bool Worker::addProduct(Product**& products, size_t& productsCount, size_t& productsCapacity, ProductCategory** allCategories, size_t categoryCount, ProductType type) const 
+{
 	noPermissionMessage();
+	return false;
 }
 
-void Worker::addCategory(size_t categoryName, const char* categoryDescription) const {
+bool Worker::deleteProduct(Product**& products, size_t& productsCount, size_t productIdToDelete) const
+{
 	noPermissionMessage();
+	return false;
 }
 
-void Worker::deleteCategory(size_t categoryId) const {
+bool Worker::loadProducts(const char* filename, Product**& products, size_t& productsCount, size_t& productsCapacity, ProductCategory**& categories, size_t& categoryCount, size_t& categoryCapacity) const
+{
 	noPermissionMessage();
+	return false;
 }
 
-void Worker::addProduct(ProductType productType) const {
+bool Worker::loadGiftCards(const char* filename, GiftCard**& giftCards, size_t& giftCardsCount, size_t& giftCardsCapacity, size_t& voucherCounter, ProductCategory** allCategories, size_t categoryCount) const
+{
 	noPermissionMessage();
-}
-
-void Worker::deleteProduct(size_t productId) const {
-	noPermissionMessage();
-}
-
-void Worker::loadProducts(const char* filename) const {
-	noPermissionMessage();
-}
-
-void Worker::loadGiftcards(const char* filename) const {
-	noPermissionMessage();
+	return false;
 }

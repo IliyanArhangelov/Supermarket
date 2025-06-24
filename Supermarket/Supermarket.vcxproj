@@ -127,22 +127,41 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AllProductsGiftCard.h" />
+    <ClInclude Include="CartItem.h" />
     <ClInclude Include="Cashier.h" />
     <ClInclude Include="CommonFunctions.hpp" />
     <ClInclude Include="Constants.h" />
+    <ClInclude Include="GiftCard.h" />
+    <ClInclude Include="Logger.h" />
     <ClInclude Include="Manager.h" />
+    <ClInclude Include="MultipleCategoryGiftCard.h" />
     <ClInclude Include="Product.h" />
+    <ClInclude Include="ProductByUnit.h" />
+    <ClInclude Include="ProductByWeight.h" />
     <ClInclude Include="ProductCategory.h" />
+    <ClInclude Include="SingleCategoryGiftCard.h" />
     <ClInclude Include="System.h" />
+    <ClInclude Include="Transaction.h" />
+    <ClInclude Include="Warning.h" />
     <ClInclude Include="Worker.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AllProductsGiftCard.cpp" />
     <ClCompile Include="Cashier.cpp" />
     <ClCompile Include="Constants.cpp" />
+    <ClCompile Include="GiftCards.cpp" />
+    <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="Main.cpp" />
     <ClCompile Include="Manager.cpp" />
+    <ClCompile Include="MultipleCategoryGiftCard.cpp" />
     <ClCompile Include="Product.cpp" />
+    <ClCompile Include="ProductByUnit.cpp" />
+    <ClCompile Include="ProductByWeight.cpp" />
     <ClCompile Include="ProductCategory.cpp" />
+    <ClCompile Include="SingleCategoryGiftCard.cpp" />
     <ClCompile Include="System.cpp" />
+    <ClCompile Include="Warning.cpp" />
     <ClCompile Include="Worker.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

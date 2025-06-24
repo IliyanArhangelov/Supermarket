@@ -1,0 +1,12 @@
+RECEIPT
+TRANSACTION_ID:6
+CASHIER_ID:4
+20:17 23.06.2025
+------------------------------
+Chips
+2*3.2 - 6.4
+###
+------------------------------
+SUBTOTAL:6.4
+DISCOUNT (Voucher: 2S6Q3):-1.28
+TOTAL:5.12

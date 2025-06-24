@@ -1,6 +1,10 @@
 #pragma once
+#include "ProductCategory.h"
 #include "Constants.h"
-#include "Cashier.h"
+#include "Product.h"
+#include "Transaction.h"
+#include "GiftCard.h"
+
 class Worker
 {
 	bool approved;
@@ -14,11 +18,6 @@ class Worker
 	size_t age;
 	char* password;
 
-	size_t transactionCount;
-	Warning* warnings;
-	size_t warningsCount;
-	size_t warningsCapacity;
-
 	void staticCopyFrom(const Worker& other);
 	void dynamicCopyFrom(const Worker& other);
 	void dynamicMoveFrom(Worker&& other) noexcept;
@@ -30,8 +29,8 @@ class Worker
 public:
 	//for every worker
 	Worker() = delete;
-	Worker(WorkerType workerType, bool approved, size_t id, const char* firstName, const char* lastName, const char* phoneNumber, size_t age, 
-		const char* password, size_t transactionCount, size_t warningsCount, size_t warningsCapacity, const Warning* warnings);
+	Worker(WorkerType workerType, bool approved, size_t id, const char* firstName, const char* lastName, const char* phoneNumber, size_t age,
+		const char* password);
 	Worker(const Worker& other);
 	Worker(Worker&& other) noexcept;
 	virtual ~Worker();
@@ -39,22 +38,34 @@ public:
 	Worker& operator=(const Worker& other);
 	Worker& operator=(Worker&& other) noexcept;
 
+	size_t getId() const;
+	const char* getFirstName() const;
+
+	const char* getLastName() const;
+	const char* getPassword() const;
+	const char* getPhoneNumber() const;
+	size_t getAge() const;
+	bool isApproved() const;
+	void setApproved(bool isApproved);
+	WorkerType getWorkerType() const;
+
+	virtual void serialize(std::ostream& os) const;
+
 	//for Cashier
-	virtual void sell();
+	virtual bool sell(Product** allProducts, size_t productsCount, Transaction**& transactions, size_t& transactionsCount, size_t& transactionsCapacity, GiftCard** allGiftCards, size_t giftCardsCount);
 
 	//for Manager
-	virtual void listPending() const;
-	virtual void approve(Worker* cashier, const char* specialCode) const;
-	virtual void decline(Worker* cashier, const char* specialCode) const;
-	virtual void listWarnedCashier(Worker** workers, size_t points) const;
-	virtual void warnCashier(Worker* cashier, size_t points) const;
-	virtual void promoteCashier(Worker* cashier, const char* specialCode) const;
-	virtual void fireCashier(Worker** workers, size_t cashierId, const char* specialCode) const;
-	virtual void addCategory(size_t categoryName, const char* categoryDescription) const;
-	virtual void deleteCategory(size_t categoryId) const;
-	virtual void addProduct(ProductType productType) const;
-	virtual void deleteProduct(size_t productId) const;
-	virtual void loadProducts(const char* filename) const;
-	virtual void loadGiftcards(const char* filename) const;
+	virtual void listPending(Worker** allWorkers, size_t count) const;
+	virtual bool approve(Worker* cashierToApprove, const char* specialCode) const;
+	virtual bool decline(Worker** allWorkers, size_t& count, size_t cashierIdToDecline, const char* specialCode) const;
+	virtual void listWarnedCashiers(Worker** allWorkers, size_t workersCount, int pointsThreshold) const;
+	virtual bool warnCashier(Worker* cashierToWarn, WarningLevel level, const char* description) const;
+	virtual bool promoteCashier(Worker** allWorkers, size_t workersCount, size_t cashierIdToPromote, const char* specialCode) const;
+	virtual bool fireCashier(Worker** allWorkers, size_t& workersCount, size_t cashierIdToFire, const char* specialCode) const;
+	virtual bool addCategory(ProductCategory**& categories, size_t& count, size_t& capacity, const char* name, const char* description) const;
+	virtual bool deleteCategory(ProductCategory**& categories, size_t& categoryCount, size_t categoryIdToDelete, Product** allProducts, size_t productsCount) const;	virtual bool addProduct(Product**& products, size_t& productsCount, size_t& productsCapacity, ProductCategory** allCategories, size_t categoryCount, ProductType type) const;
+	virtual bool deleteProduct(Product**& products, size_t& productsCount, size_t productIdToDelete) const;
+	virtual bool loadProducts(const char* filename, Product**& products, size_t& productsCount, size_t& productsCapacity, ProductCategory**& categories, size_t& categoryCount, size_t& categoryCapacity) const;
+	virtual bool loadGiftCards(const char* filename, GiftCard**& giftCards, size_t& giftCardsCount, size_t& giftCardsCapacity, size_t& voucherCounter, ProductCategory** allCategories, size_t categoryCount) const;
 };
 

@@ -4,7 +4,7 @@
 class Manager : public Worker
 {
 	bool validateSpecialCode(const char* specialCode) const;
-	int findWorkerIndexById(size_t workerId, Worker** allWorkers, size_t workersCount) const;
+	
 
 	int processAllProductsCard(char*& lineRunner, GiftCard**& giftCards, size_t& giftCardsCount, size_t& giftCardsCapacity, size_t& voucherCounter, int lineNum) const;
 	int processSingleCategoryCard(char*& lineRunner, GiftCard**& giftCards, size_t& giftCardsCount, size_t& giftCardsCapacity, size_t& voucherCounter, ProductCategory** allCategories, size_t categoryCount, int lineNum) const;
@@ -32,6 +32,7 @@ public:
 	bool deleteProduct(Product**& products, size_t& productsCount, size_t productIdToDelete) const override;
 	bool loadProducts(const char* filename, Product**& products, size_t& productsCount, size_t& productsCapacity, ProductCategory**& categories, size_t& categoryCount, size_t& categoryCapacity) const override;
 	bool loadGiftCards(const char* filename, GiftCard**& giftCards, size_t& giftCardsCount, size_t& giftCardsCapacity, size_t& voucherCounter, ProductCategory** allCategories, size_t categoryCount) const override;
+	static int findWorkerIndexById(size_t workerId, Worker** allWorkers, size_t workersCount);
 
 	char* generateAndSaveSpecialCode() const;
 };

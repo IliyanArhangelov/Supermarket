@@ -36,7 +36,7 @@ bool Manager::validateSpecialCode(const char* specialCode) const
 	return StrOpr::equals(fileCode, specialCode);
 }
 
-int Manager::findWorkerIndexById(size_t workerId, Worker** allWorkers, size_t workersCount) const
+int Manager::findWorkerIndexById(size_t workerId, Worker** allWorkers, size_t workersCount)
 {
 	for (size_t i = 0; i < workersCount; i++)
 	{

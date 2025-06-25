@@ -1,40 +1,14 @@
-[20:23 22.06.2025] User 'Admin' (ID: 1) declined cashier registration for ID 4
-[20:39 22.06.2025] User 'Admin' (ID: 1) added a new category: 'zelenchuci'.
-[21:28 22.06.2025] User 'Admin' (ID: 1) added a new product to the inventory.
-[22:01 22.06.2025] User 'Ivan' (ID: 2) completed a sale transaction.
-[22:19 22.06.2025] User 'Admin' (ID: 1) issued a warning to cashier with ID 2.
-[11:21 23.06.2025] User 'Admin' (ID: 1) fired cashier with ID 3.
-[11:45 23.06.2025] User 'Admin' (ID: 1) added a new product to the inventory.
-[11:45 23.06.2025] User 'Admin' (ID: 1) deleted a product with ID 1 from the inventory.
-[12:23 23.06.2025] User 'Admin' (ID: 1) added a new category: 'TestCat'.
-[12:24 23.06.2025] User 'Admin' (ID: 1) added a new product to the inventory.
-[12:26 23.06.2025] User 'Admin' (ID: 1) deleted a product with ID 3 from the inventory.
-[12:26 23.06.2025] User 'Admin' (ID: 1) deleted a category with ID 2.
-[12:50 23.06.2025] User 'Admin' (ID: 1) promoted cashier with ID 2 to a manager position.
-[12:51 23.06.2025] User 'Admin' (ID: 1) registered a new manager.
-[13:21 23.06.2025] User 'Admin' (ID: 1) loaded new stock from file 'delivery.txt'.
-[13:21 23.06.2025] User 'Admin' (ID: 1) loaded new stock from file 'delivery.txt'.
-[13:23 23.06.2025] User 'Admin' (ID: 1) loaded new stock from file 'delivery.txt'.
-[13:31 23.06.2025] User 'Admin' (ID: 1) loaded new stock from file 'delivery.txt'.
-[16:06 23.06.2025] User 'Ivan' (ID: 2) generated new gift cards from file 'vauchers.txt'.
-[16:41 23.06.2025] User 'Admin' (ID: 1) generated new gift cards from file 'vauchers.txt'.
-[18:34 23.06.2025] [System] submitted a new cashier registration.
-[18:36 23.06.2025] User 'Sez' (ID: 4) completed a sale transaction.
-[18:46 23.06.2025] User 'Sez' (ID: 4) completed a sale transaction.
-[18:47 23.06.2025] User 'Sez' (ID: 4) completed a sale transaction.
-[19:19 23.06.2025] User 'Admin' (ID: 1) generated new gift cards from file 'vauchers.txt'.
-[19:25 23.06.2025] User 'Sez' (ID: 4) completed a sale transaction.
-[20:17 23.06.2025] User 'Sez' (ID: 4) completed a sale transaction.
-[13:19 24.06.2025] User 'Ivan' (ID: 2) issued a warning to cashier with ID 4.
-[16:15 24.06.2025] User 'Admin' (ID: 1) added a new product to the inventory.
-[16:59 24.06.2025] [System] registered a new manager.
-[18:47 24.06.2025] User 'Admin' (ID: 1) approved cashier with ID 4
-[18:47 24.06.2025] User 'Admin' (ID: 1) promoted cashier with ID 4 to a manager position.
-[19:06 24.06.2025] User 'Admin' (ID: 1) generated new gift cards from file 'vauchers.txt'.
-[19:52 24.06.2025] [System] submitted a new cashier registration.
-[19:52 24.06.2025] User 'Admin' (ID: 1) approved cashier with ID 6
-[19:53 24.06.2025] User 'Iliqn' (ID: 6) completed a sale transaction.
-[21:28 24.06.2025] [System] submitted a new cashier registration.
-[21:45 24.06.2025] [System] submitted a new cashier registration.
-[21:49 24.06.2025] User 'Iliqn' (ID: 6) completed a sale transaction.
-[21:56 24.06.2025] [System] registered a new manager.
+[17:04 25.06.2025] [System] submitted a new cashier registration.
+[17:07 25.06.2025] User 'first' (ID: 2) submitted a new cashier registration.
+[17:08 25.06.2025] User 'Admin' (ID: 1) issued a warning to cashier with ID 3.
+[17:08 25.06.2025] User 'Admin' (ID: 1) issued a warning to cashier with ID 3.
+[17:08 25.06.2025] User 'Admin' (ID: 1) issued a warning to cashier with ID 3.
+[17:12 25.06.2025] User 'Admin' (ID: 1) approved cashier with ID 3
+[17:13 25.06.2025] User 'Admin' (ID: 1) added a new category: 'Dairy'.
+[17:14 25.06.2025] User 'Admin' (ID: 1) added a new product to the inventory.
+[17:21 25.06.2025] User 'ivan' (ID: 3) completed a sale transaction.
+[17:21 25.06.2025] User 'ivan' (ID: 3) completed a sale transaction.
+[17:21 25.06.2025] User 'ivan' (ID: 3) completed a sale transaction.
+[17:27 25.06.2025] User 'Admin' (ID: 1) fired cashier with ID 3.
+[17:29 25.06.2025] User 'ivan' (ID: 3) User 'ivan' (ID: 3) has left the job.
+[17:32 25.06.2025] User 'ivan' (ID: 3) User 'ivan' (ID: 3) has left the job.

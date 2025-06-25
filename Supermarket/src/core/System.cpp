@@ -1701,61 +1701,45 @@ void System::leave()
 
 	size_t userIdToLeave = currentUser->getId();
 	char* userName = nullptr;
-	StrOpr::strCopy(userName, currentUser->getFirstName()); // Запазваме името за съобщението
+	StrOpr::strCopy(userName, currentUser->getFirstName());
 
-	// 1. Намиране на индекса на текущия потребител в масива
-	int targetIndex = -1;
-	for (size_t i = 0; i < workersCount; i++)
-	{
-		if (workers[i] && workers[i]->getId() == userIdToLeave)
-		{
-			targetIndex = i;
-			break;
-		}
-	}
+	int targetIndex = Manager::findWorkerIndexById(userIdToLeave, workers, workersCount);
 
 	if (targetIndex == -1)
 	{
-		// Тази грешка не би трябвало никога да се случи, ако системата е консистентна
 		std::cout << "Critical Error: Logged-in user not found in the workers list." << std::endl;
 		delete[] userName;
 		return;
 	}
 
-	// 2. Изтриване на обекта и преподреждане на масива
-	delete workers[targetIndex];
 
-	for (size_t i = targetIndex; i < workersCount - 1; i++)
-	{
-		workers[i] = workers[i + 1];
-	}
-
-	workersCount--;
-	workers[workersCount] = nullptr;
-
-	std::cout << "User '" << userName << "' has left the job. You have been logged out." << std::endl;
-
-	// 3. Логване в логовете
 	char* part1 = StrOpr::concatChar("User '", userName);
 	char* part2 = StrOpr::concatChar(part1, "' (ID: ");
 	char* idAsChar = StrOpr::size_tToChar(userIdToLeave);
 	char* part3 = StrOpr::concatChar(part2, idAsChar);
 	char* feedMessage = StrOpr::concatChar(part3, ") has left the job.");
 
-	// Записваме във feed-а преди да излезем от системата, докато currentUser още сочи към нещо (макар и изтрито)
-	// Това е малко рисково, но за целите на лога е ОК.
-	// По-добър вариант е да се логва преди delete, но тогава нямаме достъп до името след това.
 	logToFeed(feedMessage);
 	Logger::log(feedMessage, currentUser);
 
-	// 4. Logout на потребителя от системата
+	delete workers[targetIndex];
+
+	for (size_t i = targetIndex; i < workersCount - 1; i++)
+	{
+		workers[i] = workers[i + 1];
+	}
+	workersCount--;
+	workers[workersCount] = nullptr;
+
+	std::cout << "User '" << userName << "' has left the job. You have been logged out." << std::endl;
+
 	currentUser = nullptr;
 
-	// 5. Изчистване на паметта
 	delete[] userName;
 	delete[] part1;
 	delete[] part2;
 	delete[] idAsChar;
 	delete[] part3;
 	delete[] feedMessage;
+
 }
